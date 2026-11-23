@@ -1,0 +1,887 @@
+/* ==========================================================================
+   Timepass Talk - In-Room Experience & Lingauro Enhancements
+   Voice/Video Stage, Tabbed Interactive Sidebar, Games, Whiteboard & Floating Dock
+   ========================================================================== */
+
+/* Full Room View Container */
+.f4t-room-view {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 56px);
+  background-color: #1a242f;
+  color: #ffffff;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Room Top Header Bar */
+.room-header {
+  height: 52px;
+  background-color: #243342;
+  border-bottom: 1px solid #34495e;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 20;
+}
+
+.room-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.room-flag {
+  font-size: 22px;
+}
+
+.room-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.room-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.room-meta-sub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #90a4ae;
+}
+
+.room-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Minimize Room Button (Lingauro Feature) */
+.btn-minimize-room {
+  background-color: #34495e;
+  border: 1px solid #4a627a;
+  color: #ecf0f1;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-minimize-room:hover {
+  background-color: #2c3e50;
+  border-color: #5d7d9f;
+  color: #ffffff;
+}
+
+/* Tip Room Button */
+.btn-tip-room {
+  background-color: rgba(243, 156, 18, 0.2);
+  border: 1px solid #f39c12;
+  color: #f1c40f;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-tip-room:hover {
+  background-color: #f39c12;
+  color: #ffffff;
+}
+
+/* Leave Room Button */
+.btn-leave-room {
+  background-color: #e74c3c;
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-leave-room:hover {
+  background-color: #c0392b;
+}
+
+/* Main Split: Stage on Left, Tabbed Sidebar on Right */
+.room-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Left: Stage Area */
+.room-stage-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #17202a;
+  position: relative;
+  overflow: hidden;
+}
+
+.stage-grid {
+  flex: 1;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+/* Participant Video / Voice Card */
+.participant-stage-card {
+  background-color: #212f3d;
+  border: 2px solid #2e4053;
+  border-radius: var(--radius-lg);
+  aspect-ratio: 4 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: border-color 0.2s ease;
+}
+
+.participant-stage-card.speaking {
+  border-color: #2ecc71;
+  box-shadow: 0 0 16px rgba(46, 204, 113, 0.4);
+}
+
+.stage-avatar-wrapper {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 10px;
+}
+
+.stage-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #34495e;
+}
+
+.participant-stage-card.speaking .stage-avatar {
+  border-color: #2ecc71;
+  animation: f4t-speaking-pulse 1.4s infinite;
+}
+
+/* Audio Waveform Animation */
+.stage-audio-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 24px;
+  margin-top: 6px;
+}
+
+.stage-audio-bar {
+  width: 4px;
+  height: 6px;
+  background-color: #566573;
+  border-radius: 2px;
+  transition: height 0.15s ease;
+}
+
+.participant-stage-card.speaking .stage-audio-bar {
+  background-color: #2ecc71;
+  animation: audio-bounce 0.8s infinite ease-in-out alternate;
+}
+
+.participant-stage-card.speaking .stage-audio-bar:nth-child(2) { animation-delay: 0.15s; }
+.participant-stage-card.speaking .stage-audio-bar:nth-child(3) { animation-delay: 0.3s; }
+.participant-stage-card.speaking .stage-audio-bar:nth-child(4) { animation-delay: 0.45s; }
+
+@keyframes audio-bounce {
+  0% { height: 4px; }
+  100% { height: 22px; }
+}
+
+.stage-name-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.65);
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stage-mic-badge {
+  font-size: 11px;
+}
+
+/* Real Video Feed element */
+.stage-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.participant-stage-card.has-video .stage-video {
+  display: block;
+}
+
+.participant-stage-card.has-video .stage-avatar-wrapper,
+.participant-stage-card.has-video .stage-audio-bars {
+  display: none;
+}
+
+/* Stage Bottom Controls Bar */
+.stage-controls-bar {
+  height: 64px;
+  background-color: #212f3d;
+  border-top: 1px solid #2e4053;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.btn-stage-ctl {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #2c3e50;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border: 1px solid #34495e;
+  transition: all 0.15s ease;
+}
+
+.btn-stage-ctl:hover {
+  background-color: #34495e;
+  transform: translateY(-2px);
+}
+
+.btn-stage-ctl.active {
+  background-color: var(--brand-green);
+  border-color: var(--brand-green);
+  color: #fff;
+}
+
+.btn-stage-ctl.danger {
+  background-color: #e74c3c;
+  border-color: #c0392b;
+}
+
+.btn-stage-ctl.pill {
+  width: auto;
+  border-radius: var(--radius-full);
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  gap: 6px;
+}
+
+/* ==========================================================================
+   5. RIGHT TABBED PANEL (Chat, Lingauro Games, Whiteboard, Members)
+   ========================================================================== */
+.room-sidebar {
+  width: 380px;
+  background-color: #1c2833;
+  border-left: 1px solid #2e4053;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+/* Sidebar Tab Selector */
+.sidebar-tabs {
+  height: 48px;
+  background-color: #212f3d;
+  border-bottom: 1px solid #2e4053;
+  display: flex;
+}
+
+.sidebar-tab-btn {
+  flex: 1;
+  background: transparent;
+  color: #90a4ae;
+  font-size: 12.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-bottom: 2px solid transparent;
+}
+
+.sidebar-tab-btn:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.sidebar-tab-btn.active {
+  color: var(--brand-green);
+  border-bottom-color: var(--brand-green);
+  background-color: rgba(46, 204, 113, 0.08);
+}
+
+.sidebar-tab-content {
+  flex: 1;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-tab-content.active {
+  display: flex;
+}
+
+/* TAB 1: Chat Messages */
+.chat-messages-container {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-msg-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.chat-msg-body {
+  flex: 1;
+  background-color: #273746;
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.chat-msg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.chat-msg-author {
+  font-size: 12px;
+  font-weight: 700;
+  color: #85c1e9;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chat-msg-author.vip {
+  color: #f1c40f;
+}
+
+.chat-msg-time {
+  font-size: 10.5px;
+  color: #7f8c8d;
+}
+
+.chat-msg-text {
+  color: #eaeded;
+  word-break: break-word;
+}
+
+/* Image Attachment in Chat (Lingauro Feature) */
+.chat-msg-image {
+  margin-top: 6px;
+  border-radius: var(--radius-sm);
+  max-width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 1px solid #34495e;
+  transition: transform 0.15s ease;
+}
+
+.chat-msg-image:hover {
+  transform: scale(1.02);
+}
+
+/* Chat Input Bar */
+.chat-input-area {
+  padding: 10px 14px;
+  background-color: #212f3d;
+  border-top: 1px solid #2e4053;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-input {
+  flex: 1;
+  background-color: #2c3e50;
+  border: 1px solid #34495e;
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  outline: none;
+}
+
+.chat-input:focus {
+  border-color: var(--brand-green);
+}
+
+.btn-chat-attach {
+  background: transparent;
+  color: #90a4ae;
+  font-size: 18px;
+  padding: 6px;
+}
+
+.btn-chat-attach:hover {
+  color: #ffffff;
+}
+
+.btn-chat-send {
+  background-color: var(--brand-green);
+  color: #ffffff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* TAB 2: Lingauro Games & Activities */
+.games-container {
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.game-card {
+  background-color: #273746;
+  border: 1px solid #34495e;
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.game-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffd54f;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.game-card-desc {
+  font-size: 12.5px;
+  color: #b0bec5;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+/* Word Guessing / Taboo Box */
+.taboo-word-box {
+  background-color: #1b2631;
+  border: 1.5px dashed #f39c12;
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.taboo-main-word {
+  font-size: 18px;
+  font-weight: 800;
+  color: #2ecc71;
+  margin-bottom: 4px;
+}
+
+.taboo-forbidden-list {
+  font-size: 11.5px;
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+/* Trivia Questions */
+.trivia-question-text {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.trivia-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.btn-trivia-opt {
+  background-color: #34495e;
+  color: #ffffff;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  text-align: left;
+  border: 1px solid #4a627a;
+}
+
+.btn-trivia-opt:hover {
+  background-color: #415b76;
+}
+
+.btn-trivia-opt.correct {
+  background-color: #27ae60 !important;
+  border-color: #2ecc71 !important;
+}
+
+/* Conversation Starters Wheel */
+.icebreaker-prompt-box {
+  background-color: #1f2d3d;
+  border-left: 3px solid #3498db;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-style: italic;
+  color: #ecf0f1;
+  margin-bottom: 10px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+/* 60s Speaking Challenge */
+.timer-display {
+  font-size: 26px;
+  font-weight: 800;
+  color: #2ecc71;
+  text-align: center;
+  margin: 6px 0;
+  font-family: monospace;
+}
+
+/* TAB 3: Whiteboard (Lingauro Feature) */
+.whiteboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.wb-toolbar {
+  padding: 8px 12px;
+  background-color: #212f3d;
+  border-bottom: 1px solid #2e4053;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.wb-colors {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wb-color-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.wb-color-dot.active {
+  border-color: #ffffff;
+  transform: scale(1.15);
+}
+
+.wb-canvas-wrapper {
+  flex: 1;
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+#whiteboard-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+/* TAB 4: Members & Tipping */
+.members-list-container {
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.member-row-card {
+  background-color: #273746;
+  border: 1px solid #34495e;
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.member-row-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.member-row-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.member-row-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-row-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.member-row-meta {
+  font-size: 11px;
+  color: #90a4ae;
+}
+
+.member-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-member-tip {
+  background-color: rgba(243, 156, 18, 0.2);
+  border: 1px solid #f39c12;
+  color: #ffd54f;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.btn-member-tip:hover {
+  background-color: #f39c12;
+  color: #fff;
+}
+
+/* ==========================================================================
+   6. FLOATING MINIMIZED CALL BAR (Lingauro Group Minimize Feature)
+   ========================================================================== */
+.f4t-floating-dock {
+  position: fixed;
+  bottom: 20px;
+  right: 24px;
+  background-color: #212f3d;
+  border: 1.5px solid #34495e;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 9999;
+  max-width: 440px;
+  animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.dock-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.dock-flag {
+  font-size: 20px;
+}
+
+.dock-info {
+  display: flex;
+  flex-direction: column;
+  max-width: 140px;
+}
+
+.dock-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dock-status {
+  font-size: 10.5px;
+  color: #2ecc71;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dock-avatars {
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.dock-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid #212f3d;
+  margin-left: -6px;
+  object-fit: cover;
+}
+
+.dock-avatar:first-child {
+  margin-left: 0;
+}
+
+.dock-avatar.speaking {
+  border-color: #2ecc71;
+  animation: f4t-speaking-pulse 1.4s infinite;
+}
+
+.dock-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.btn-dock-ctl {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #2c3e50;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border: 1px solid #34495e;
+}
+
+.btn-dock-ctl:hover {
+  background-color: #34495e;
+}
+
+.btn-dock-ctl.active {
+  background-color: var(--brand-green);
+  border-color: var(--brand-green);
+}
+
+.btn-dock-ctl.expand {
+  background-color: #2980b9;
+  border-color: #2980b9;
+}
+
+.btn-dock-ctl.hangup {
+  background-color: #e74c3c;
+  border-color: #c0392b;
+}
+
+/* Floating Coin Tip Celebration Overlay */
+.tip-celebration-bubble {
+  position: fixed;
+  bottom: 80px;
+  right: 50px;
+  background-color: #f39c12;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 13.5px;
+  box-shadow: 0 4px 14px rgba(243, 156, 18, 0.4);
+  animation: floatUpFade 2.2s forwards;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+@keyframes floatUpFade {
+  0% { transform: translateY(0) scale(0.9); opacity: 1; }
+  80% { transform: translateY(-70px) scale(1.05); opacity: 0.9; }
+  100% { transform: translateY(-100px) scale(1); opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .room-body {
+    flex-direction: column;
+  }
+  .room-sidebar {
+    width: 100%;
+    height: 340px;
+  }
+}

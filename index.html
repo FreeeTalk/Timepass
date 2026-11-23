@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timepass Talk - Free Language Practice & Speaking Groups</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/free4talk.css">
+  <link rel="stylesheet" href="css/room.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. TOP NAVIGATION BAR (Exact Free4Talk Header)
+       ======================================================================== -->
+  <header class="f4t-header">
+    <div class="f4t-header-inner">
+      <!-- Brand Logo -->
+      <a href="#" class="f4t-brand" id="brand-logo-link">
+        <div class="f4t-logo-dots">
+          <span class="f4t-logo-dot f4t-dot-1"></span>
+          <span class="f4t-logo-dot f4t-dot-2"></span>
+          <span class="f4t-logo-dot f4t-dot-3"></span>
+          <span class="f4t-logo-dot f4t-dot-4"></span>
+        </div>
+        <div class="f4t-brand-title">
+          Timepass Talk
+          <span class="f4t-brand-sub">online</span>
+        </div>
+      </a>
+
+      <!-- Center Live Stats -->
+      <div class="f4t-header-stats">
+        <span class="f4t-pulse-live"></span>
+        <span id="header-rooms-count">6 Live Groups</span>
+        <span>•</span>
+        <span id="header-users-count">24 Talkers Online</span>
+      </div>
+
+      <!-- Right Header Actions -->
+      <div class="f4t-header-actions">
+        <!-- Token Balance (Lingauro Feature) -->
+        <div class="f4t-token-pill" id="token-balance-pill" title="Your Token Balance">
+          <span>🪙</span>
+          <span id="header-tokens-val">150</span>
+          <button class="f4t-claim-btn" id="btn-claim-daily-header" title="Claim 50 free tokens">+50 Daily</button>
+        </div>
+
+        <!-- Friends Drawer Button (Lingauro Feature) -->
+        <button class="f4t-friends-btn" id="btn-open-friends" title="Friends & Direct Chat">
+          <span>👥 Friends</span>
+          <span class="badge-pill" id="friends-badge" style="display:none; background:#e74c3c; color:#fff; border-radius:10px; padding:1px 6px; font-size:10px;">0</span>
+        </button>
+
+        <!-- VIP Upgrade Button -->
+        <button class="f4t-friends-btn" id="btn-open-vip" title="VIP Membership" style="color:#ffd54f; border-color:rgba(255,213,79,0.3);">
+          <span>👑 VIP Club</span>
+        </button>
+
+        <!-- Free4talk Signature Button: "+ Create a new group" -->
+        <button class="btn-create-group" id="btn-create-room-header">
+          <span>+ Create a new group</span>
+        </button>
+
+        <!-- User Authentication & Profile Container -->
+        <div id="header-user-slot">
+          <!-- Populated dynamically by app.js -->
+          <button class="f4t-btn-signin" id="btn-header-signin">Sign In</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. LOBBY VIEW (Free4Talk Exact Homepage & Filter Controls)
+       ======================================================================== -->
+  <main id="lobby-view" class="lobby-container">
+    
+    <!-- Announcement Banner -->
+    <div class="f4t-banner">
+      <div class="f4t-banner-inner">
+        <div class="f4t-banner-text">
+          <strong>Talk with native speakers and language learners from all over the world</strong> — 100% Free • WebRTC Audio & Video • In-room Games & Chat.
+        </div>
+        <!-- Quick Language Chips -->
+        <div class="f4t-banner-lang-quick" id="lang-quick-filters">
+          <button class="f4t-lang-tag active" data-lang="all">All</button>
+          <button class="f4t-lang-tag" data-lang="English">🇬🇧 English</button>
+          <button class="f4t-lang-tag" data-lang="Tamil">🇮🇳 Tamil (தமிழ்)</button>
+          <button class="f4t-lang-tag" data-lang="Spanish">🇪🇸 Spanish</button>
+          <button class="f4t-lang-tag" data-lang="French">🇫🇷 French</button>
+          <button class="f4t-lang-tag" data-lang="German">🇩🇪 German</button>
+          <button class="f4t-lang-tag" data-lang="Japanese">🇯🇵 Japanese</button>
+          <button class="f4t-lang-tag" data-lang="Hindi">🇮🇳 Hindi</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondary Filter Bar (Group Size & Search) -->
+    <div class="f4t-filters-bar">
+      <div class="f4t-filter-group-left">
+        <span class="f4t-filter-label">Group Size:</span>
+        <button class="f4t-size-btn active" data-size="all">Any</button>
+        <button class="f4t-size-btn" data-size="2">2 people</button>
+        <button class="f4t-size-btn" data-size="3">3 people</button>
+        <button class="f4t-size-btn" data-size="4">4 people</button>
+        <button class="f4t-size-btn" data-size="5">5+ people</button>
+      </div>
+
+      <div class="f4t-filter-group-right">
+        <!-- Level Dropdown -->
+        <select class="f4t-select" id="filter-level-select">
+          <option value="any">🎓 Any level</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+
+        <!-- Search Input -->
+        <input type="text" class="f4t-search-input" id="search-rooms-input" placeholder="Search group or language..." />
+      </div>
+    </div>
+
+    <!-- Free4Talk Room Cards Grid Container -->
+    <div class="f4t-grid-container">
+      <div class="f4t-rooms-grid" id="rooms-grid">
+        <!-- Rendered dynamically by app.js with exact Free4talk member slots -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       3. IN-ROOM VIEW (Split Stage + Lingauro Superpowers: Chat, Games, Whiteboard)
+       ======================================================================== -->
+  <section id="room-view" class="f4t-room-view" style="display: none;">
+    
+    <!-- Room Top Header -->
+    <div class="room-header">
+      <div class="room-header-left">
+        <span class="room-flag" id="active-room-flag">🇬🇧</span>
+        <div class="room-info">
+          <h2 class="room-title" id="active-room-title">Room Title</h2>
+          <div class="room-meta-sub">
+            <span id="active-room-lang">English</span>
+            <span>•</span>
+            <span class="f4t-level-badge any" id="active-room-level-badge">Any Level</span>
+            <span>•</span>
+            <span id="active-room-capacity">2/4 members</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="room-header-right">
+        <!-- Lingauro Minimize to Floating Dock Button -->
+        <button class="btn-minimize-room" id="btn-minimize-to-dock" title="Minimize call into floating bar and browse rooms">
+          <span>🗕 Minimize</span>
+        </button>
+
+        <!-- Tip Room Host/Speakers -->
+        <button class="btn-tip-room" id="btn-tip-room-header" title="Send token tips to speakers">
+          <span>🪙 Tip Room</span>
+        </button>
+
+        <!-- Leave Room -->
+        <button class="btn-leave-room" id="btn-leave-room-header">
+          <span>🚪 Leave</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Room Main Split Body -->
+    <div class="room-body">
+      
+      <!-- Left: Stage Area -->
+      <div class="room-stage-container">
+        <!-- Grid of Participant Cards with Audio Waveforms & Video -->
+        <div class="stage-grid" id="stage-participants-grid">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Stage Bottom Controls Bar -->
+        <div class="stage-controls-bar">
+          <button class="btn-stage-ctl" id="btn-ctl-mic" title="Toggle Microphone">
+            <span id="ctl-mic-icon">🎙️</span>
+          </button>
+          
+          <button class="btn-stage-ctl" id="btn-ctl-camera" title="Toggle Camera">
+            <span id="ctl-cam-icon">📹</span>
+          </button>
+          
+          <button class="btn-stage-ctl" id="btn-ctl-screen" title="Share Screen">
+            <span>🖥️</span>
+          </button>
+
+          <button class="btn-stage-ctl pill" id="btn-toggle-games-tab" title="Language Games">
+            <span>🎮 Games</span>
+          </button>
+
+          <button class="btn-stage-ctl pill" id="btn-toggle-wb-tab" title="Whiteboard">
+            <span>🎨 Whiteboard</span>
+          </button>
+
+          <button class="btn-stage-ctl danger" id="btn-ctl-leave" title="Leave Call">
+            <span>✕</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Tabbed Interactive Sidebar -->
+      <aside class="room-sidebar">
+        <!-- Tabs Header -->
+        <div class="sidebar-tabs">
+          <button class="sidebar-tab-btn active" data-tab="tab-chat">
+            <span>💬 Chat</span>
+          </button>
+          <button class="sidebar-tab-btn" data-tab="tab-games">
+            <span>🎮 Games</span>
+          </button>
+          <button class="sidebar-tab-btn" data-tab="tab-whiteboard">
+            <span>🎨 Whiteboard</span>
+          </button>
+          <button class="sidebar-tab-btn" data-tab="tab-members">
+            <span>👥 Members</span>
+          </button>
+        </div>
+
+        <!-- TAB 1: Chat Messages with Image Uploads -->
+        <div class="sidebar-tab-content active" id="tab-chat">
+          <div class="chat-messages-container" id="room-chat-messages">
+            <!-- Messages rendered dynamically -->
+          </div>
+
+          <!-- Chat Input -->
+          <div class="chat-input-area">
+            <label class="btn-chat-attach" title="Attach & Send Image" for="chat-image-input" style="cursor:pointer;">
+              📎
+            </label>
+            <input type="file" id="chat-image-input" accept="image/*" style="display:none;" />
+
+            <input type="text" class="chat-input" id="room-chat-input" placeholder="Type a message or paste image..." />
+            
+            <button class="btn-chat-send" id="btn-send-room-chat" title="Send">
+              ➤
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 2: Lingauro Games & Activities -->
+        <div class="sidebar-tab-content" id="tab-games">
+          <div class="games-container">
+            
+            <!-- Game 1: Word Guessing (Taboo) -->
+            <div class="game-card">
+              <div class="game-card-title">
+                <span>🎯 Word Guessing (Taboo)</span>
+              </div>
+              <p class="game-card-desc">Describe the secret word to other members without saying the forbidden taboo words!</p>
+              
+              <div class="taboo-word-box" id="taboo-box">
+                <div class="taboo-main-word" id="taboo-current-word">AIRPORT</div>
+                <div class="taboo-forbidden-list" id="taboo-forbidden-words">Forbidden: Plane, Travel, Fly, Ticket</div>
+              </div>
+
+              <div style="display:flex; gap:8px;">
+                <button class="btn-submit" id="btn-taboo-next" style="flex:1; padding:6px 12px; font-size:12px;">Next Word 🎲</button>
+                <button class="btn-cancel" id="btn-taboo-reveal" style="padding:6px 12px; font-size:12px;">Reveal / Pass</button>
+              </div>
+            </div>
+
+            <!-- Game 2: Language Trivia Challenge -->
+            <div class="game-card">
+              <div class="game-card-title">
+                <span>🧠 Language & Culture Trivia</span>
+              </div>
+              <div class="trivia-question-text" id="trivia-q-text">Which language has the longest official alphabet with 74 letters?</div>
+              
+              <div class="trivia-options-grid" id="trivia-options-box">
+                <button class="btn-trivia-opt" data-opt="0">A) Tamil</button>
+                <button class="btn-trivia-opt" data-opt="1">B) Khmer (Cambodian)</button>
+                <button class="btn-trivia-opt" data-opt="2">C) Russian</button>
+                <button class="btn-trivia-opt" data-opt="3">D) Greek</button>
+              </div>
+
+              <button class="btn-submit" id="btn-trivia-next" style="margin-top:10px; width:100%; padding:6px 12px; font-size:12px;">Next Trivia Question 🚀</button>
+            </div>
+
+            <!-- Game 3: 100+ Conversation Starters & Icebreakers -->
+            <div class="game-card">
+              <div class="game-card-title">
+                <span>💬 Conversation Icebreaker</span>
+              </div>
+              <div class="icebreaker-prompt-box" id="icebreaker-text">
+                "If you could teleport to any city in the world for dinner tonight, where would you go and why?"
+              </div>
+              <button class="btn-submit" id="btn-spin-icebreaker" style="width:100%; padding:6px 12px; font-size:12px;">Spin New Topic 🌟</button>
+            </div>
+
+            <!-- Game 4: 60-Second Speaking Challenge -->
+            <div class="game-card">
+              <div class="game-card-title">
+                <span>⏱️ 60-Second Speaking Challenge</span>
+              </div>
+              <p class="game-card-desc">Take turns speaking fluently without stopping on a random topic for 60 seconds.</p>
+              <div class="timer-display" id="speaking-timer-val">60s</div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-submit" id="btn-start-timer" style="flex:1; padding:6px 12px; font-size:12px;">Start Timer ⏳</button>
+                <button class="btn-cancel" id="btn-reset-timer" style="padding:6px 12px; font-size:12px;">Reset</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB 3: Shared Whiteboard -->
+        <div class="sidebar-tab-content" id="tab-whiteboard">
+          <div class="whiteboard-container">
+            <div class="wb-toolbar">
+              <div class="wb-colors">
+                <span class="wb-color-dot active" style="background:#263238;" data-color="#263238"></span>
+                <span class="wb-color-dot" style="background:#e74c3c;" data-color="#e74c3c"></span>
+                <span class="wb-color-dot" style="background:#2ecc71;" data-color="#2ecc71"></span>
+                <span class="wb-color-dot" style="background:#3498db;" data-color="#3498db"></span>
+                <span class="wb-color-dot" style="background:#f39c12;" data-color="#f39c12"></span>
+              </div>
+              <div style="display:flex; gap:6px;">
+                <button class="btn-cancel" id="btn-wb-clear" style="padding:4px 8px; font-size:11px;">Clear</button>
+                <button class="btn-submit" id="btn-wb-save" style="padding:4px 8px; font-size:11px;">Save 📥</button>
+              </div>
+            </div>
+            <div class="wb-canvas-wrapper">
+              <canvas id="whiteboard-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: Members & Tipping -->
+        <div class="sidebar-tab-content" id="tab-members">
+          <div class="members-list-container" id="room-members-list">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       4. FLOATING MINIMIZED CALL DOCK (Lingauro Group Minimize Feature)
+       ======================================================================== -->
+  <div class="f4t-floating-dock" id="floating-dock" style="display: none;">
+    <div class="dock-left" id="dock-expand-trigger" title="Click to expand room">
+      <span class="dock-flag" id="dock-room-flag">🇬🇧</span>
+      <div class="dock-info">
+        <div class="dock-title" id="dock-room-title">Room Name</div>
+        <div class="dock-status">
+          <span class="f4t-pulse-live" style="width:6px; height:6px;"></span>
+          <span>Call active</span>
+        </div>
+      </div>
+      <div class="dock-avatars" id="dock-avatars-list">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <div class="dock-controls">
+      <button class="btn-dock-ctl" id="btn-dock-mic" title="Toggle Mic">🎙️</button>
+      <button class="btn-dock-ctl" id="btn-dock-cam" title="Toggle Cam">📹</button>
+      <button class="btn-dock-ctl expand" id="btn-dock-expand" title="Expand to Full Room">⤢</button>
+      <button class="btn-dock-ctl hangup" id="btn-dock-leave" title="Leave Call">✕</button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       5. MODALS AND DRAWERS
+       ======================================================================== -->
+  
+  <!-- Create Room Modal (Exact Free4talk style) -->
+  <div class="f4t-modal-backdrop" id="modal-create-room" style="display: none;">
+    <div class="f4t-modal">
+      <div class="f4t-modal-header">
+        <h3 class="f4t-modal-title">
+          <span>+ Create a new group</span>
+        </h3>
+        <button class="btn-modal-close" id="btn-close-create-room">✕</button>
+      </div>
+      <div class="f4t-modal-body">
+        <div class="f4t-form-group">
+          <label class="f4t-form-label">Language to practice</label>
+          <select class="f4t-form-select" id="new-room-lang">
+            <option value="English" data-flag="🇬🇧">🇬🇧 English</option>
+            <option value="Tamil" data-flag="🇮🇳">🇮🇳 Tamil (தமிழ்)</option>
+            <option value="Spanish" data-flag="🇪🇸">🇪🇸 Spanish (Español)</option>
+            <option value="French" data-flag="🇫🇷">🇫🇷 French (Français)</option>
+            <option value="German" data-flag="🇩🇪">🇩🇪 German (Deutsch)</option>
+            <option value="Japanese" data-flag="🇯🇵">🇯🇵 Japanese (日本語)</option>
+            <option value="Hindi" data-flag="🇮🇳">🇮🇳 Hindi (हिन्दी)</option>
+            <option value="Chinese" data-flag="🇨🇳">🇨🇳 Chinese (中文)</option>
+            <option value="Arabic" data-flag="🇸🇦">🇸🇦 Arabic (العربية)</option>
+          </select>
+        </div>
+
+        <div class="f4t-form-group">
+          <label class="f4t-form-label">Room Topic / Description</label>
+          <input type="text" class="f4t-form-input" id="new-room-title" placeholder="e.g. Friendly English practice! Daily life & hobbies" />
+        </div>
+
+        <div class="f4t-form-group">
+          <label class="f4t-form-label">Proficiency Level</label>
+          <select class="f4t-form-select" id="new-room-level">
+            <option value="any">🎓 Any level</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div class="f4t-form-group">
+          <label class="f4t-form-label">Max participants limit</label>
+          <select class="f4t-form-select" id="new-room-capacity">
+            <option value="2">2 people (1-on-1 focus)</option>
+            <option value="3">3 people</option>
+            <option value="4" selected>4 people (Recommended)</option>
+            <option value="5">5 people</option>
+            <option value="6">6 people</option>
+          </select>
+        </div>
+
+        <div class="f4t-form-group" style="flex-direction:row; align-items:center; gap:8px;">
+          <input type="checkbox" id="new-room-vip" />
+          <label for="new-room-vip" class="f4t-form-label" style="cursor:pointer; margin-bottom:0;">
+            👑 VIP Exclusive Room (Gold border & VIP members only)
+          </label>
+        </div>
+      </div>
+      <div class="f4t-modal-footer">
+        <button class="btn-cancel" id="btn-cancel-create-room">Cancel</button>
+        <button class="btn-submit" id="btn-submit-create-room">Create and Join</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Authentication Modal (Sign In / Register / 1-Click Guest) -->
+  <div class="f4t-modal-backdrop" id="modal-auth" style="display: none;">
+    <div class="f4t-modal">
+      <div class="f4t-modal-header">
+        <h3 class="f4t-modal-title" id="auth-modal-title">Sign In to Timepass Talk</h3>
+        <button class="btn-modal-close" id="btn-close-auth">✕</button>
+      </div>
+      <div class="f4t-modal-body">
+        
+        <!-- Toggle Tabs: Sign In / Register / Guest -->
+        <div style="display:flex; border-bottom:1px solid #cfd8dc; margin-bottom:8px;">
+          <button class="sidebar-tab-btn active" id="tab-auth-login" style="flex:1; height:36px;">Sign In</button>
+          <button class="sidebar-tab-btn" id="tab-auth-register" style="flex:1; height:36px;">Register</button>
+          <button class="sidebar-tab-btn" id="tab-auth-guest" style="flex:1; height:36px;">Instant Guest</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="form-auth-login" style="display:flex; flex-direction:column; gap:12px;">
+          <div class="f4t-form-group">
+            <label class="f4t-form-label">Email address</label>
+            <input type="email" class="f4t-form-input" id="login-email" placeholder="karthik@free4talk.com" required />
+          </div>
+          <div class="f4t-form-group">
+            <label class="f4t-form-label">Password</label>
+            <input type="password" class="f4t-form-input" id="login-password" placeholder="••••••••" required />
+          </div>
+          <button type="submit" class="btn-submit" style="width:100%; margin-top:6px;">Sign In</button>
+          <div style="font-size:12px; color:#78909c; text-align:center;">Demo logins available: sarah@free4talk.com / pass1234</div>
+        </form>
+
+        <!-- Register Form -->
+        <form id="form-auth-register" style="display:none; flex-direction:column; gap:12px;">
+          <div class="f4t-form-group">
+            <label class="f4t-form-label">Full Name</label>
+            <input type="text" class="f4t-form-input" id="reg-name" placeholder="Karthik Raja" required />
+          </div>
+          <div class="f4t-form-group">
+            <label class="f4t-form-label">Email address</label>
+            <input type="email" class="f4t-form-input" id="reg-email" placeholder="your.email@example.com" required />
+          </div>
+          <div class="f4t-form-group">
+            <label class="f4t-form-label">Password</label>
+            <input type="password" class="f4t-form-input" id="reg-password" placeholder="At least 6 characters" required />
+          </div>
+          <div class="f4t-form-group">
+            <label class="f4t-form-label">Native Language</label>
+            <select class="f4t-form-select" id="reg-native-lang">
+              <option value="Tamil" data-flag="🇮🇳">🇮🇳 Tamil</option>
+              <option value="English" data-flag="🇬🇧">🇬🇧 English</option>
+              <option value="Spanish" data-flag="🇪🇸">🇪🇸 Spanish</option>
+              <option value="French" data-flag="🇫🇷">🇫🇷 French</option>
+              <option value="Hindi" data-flag="🇮🇳">🇮🇳 Hindi</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-submit" style="width:100%; margin-top:6px;">Create Account (+150 Welcome Tokens)</button>
+        </form>
+
+        <!-- Guest Form -->
+        <div id="form-auth-guest" style="display:none; flex-direction:column; gap:12px;">
+          <p style="font-size:13px; color:#546e7a;">Hop right in! No registration needed. You will get instant access with 150 welcome tokens.</p>
+          <div class="f4t-form-group">
+            <label class="f4t-form-label">Your Display Name</label>
+            <input type="text" class="f4t-form-input" id="guest-name" placeholder="e.g. Alex" />
+          </div>
+          <button class="btn-submit" id="btn-submit-guest" style="width:100%; margin-top:6px;">Join as Guest Now ⚡</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- VIP & Subscription Modal -->
+  <div class="f4t-modal-backdrop" id="modal-vip" style="display: none;">
+    <div class="f4t-modal">
+      <div class="f4t-modal-header">
+        <h3 class="f4t-modal-title">
+          <span>👑 Timepass Talk VIP Club</span>
+        </h3>
+        <button class="btn-modal-close" id="btn-close-vip">✕</button>
+      </div>
+      <div class="f4t-modal-body">
+        <div class="vip-modal-banner">
+          <div style="font-size:28px; margin-bottom:4px;">👑</div>
+          <h2 style="font-size:18px; font-weight:800;">Elevate Your Practice Experience</h2>
+          <p style="font-size:13px; opacity:0.9;">Join VIP for only 100 Tokens / month</p>
+        </div>
+
+        <div class="vip-perks-list">
+          <div class="vip-perk-item">
+            <span class="vip-perk-icon">🌟</span>
+            <span>Golden VIP badge & avatar ring visible across all rooms</span>
+          </div>
+          <div class="vip-perk-item">
+            <span class="vip-perk-icon">🔒</span>
+            <span>Create VIP-only speaking groups with custom capacities</span>
+          </div>
+          <div class="vip-perk-item">
+            <span class="vip-perk-icon">🪙</span>
+            <span>Double daily token rewards (+100 Tokens / day)</span>
+          </div>
+          <div class="vip-perk-item">
+            <span class="vip-perk-icon">🎨</span>
+            <span>Special room colors & priority placement on lobby</span>
+          </div>
+        </div>
+
+        <div style="background:#f8fafc; padding:12px; border-radius:var(--radius-md); border:1px solid #cfd8dc; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:13px; font-weight:600;">Your Balance:</span>
+          <span style="font-size:15px; font-weight:700; color:#f39c12;" id="vip-modal-balance">🪙 150 Tokens</span>
+        </div>
+      </div>
+      <div class="f4t-modal-footer">
+        <button class="btn-cancel" id="btn-cancel-vip">Close</button>
+        <button class="btn-submit" id="btn-confirm-upgrade-vip">Upgrade Now (100 🪙)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Profile Settings Modal -->
+  <div class="f4t-modal-backdrop" id="modal-profile" style="display: none;">
+    <div class="f4t-modal">
+      <div class="f4t-modal-header">
+        <h3 class="f4t-modal-title">Edit Your Profile</h3>
+        <button class="btn-modal-close" id="btn-close-profile">✕</button>
+      </div>
+      <div class="f4t-modal-body">
+        <div class="f4t-form-group">
+          <label class="f4t-form-label">Display Name</label>
+          <input type="text" class="f4t-form-input" id="profile-name" />
+        </div>
+
+        <div class="f4t-form-group">
+          <label class="f4t-form-label">Avatar Image URL</label>
+          <input type="text" class="f4t-form-input" id="profile-avatar" placeholder="https://..." />
+        </div>
+
+        <div class="f4t-form-group">
+          <label class="f4t-form-label">Native Language</label>
+          <select class="f4t-form-select" id="profile-native-lang">
+            <option value="Tamil" data-flag="🇮🇳">🇮🇳 Tamil</option>
+            <option value="English" data-flag="🇬🇧">🇬🇧 English</option>
+            <option value="Spanish" data-flag="🇪🇸">🇪🇸 Spanish</option>
+            <option value="French" data-flag="🇫🇷">🇫🇷 French</option>
+            <option value="German" data-flag="🇩🇪">🇩🇪 German</option>
+            <option value="Japanese" data-flag="🇯🇵">🇯🇵 Japanese</option>
+            <option value="Hindi" data-flag="🇮🇳">🇮🇳 Hindi</option>
+          </select>
+        </div>
+
+        <div class="f4t-form-group">
+          <label class="f4t-form-label">About You / Bio</label>
+          <textarea class="f4t-form-textarea" id="profile-bio" rows="3" placeholder="Tell other learners about your interests..."></textarea>
+        </div>
+      </div>
+      <div class="f4t-modal-footer">
+        <button class="btn-cancel" id="btn-cancel-profile">Cancel</button>
+        <button class="btn-submit" id="btn-save-profile">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Friends & Direct Messaging Slide-out Drawer (Lingauro Feature) -->
+  <div class="f4t-drawer-backdrop" id="drawer-friends" style="display: none;">
+    <div class="f4t-drawer">
+      
+      <!-- Friend List Header -->
+      <div class="f4t-drawer-header">
+        <div class="f4t-drawer-title">
+          <span>👥 Friends & Direct Messages</span>
+        </div>
+        <button class="btn-modal-close" id="btn-close-friends-drawer">✕</button>
+      </div>
+
+      <!-- Add Friend & Search Bar -->
+      <div class="f4t-drawer-search">
+        <div style="display:flex; gap:6px;">
+          <input type="text" class="f4t-form-input" id="search-friend-input" placeholder="Enter friend's name or email..." style="font-size:12px; padding:6px 10px;" />
+          <button class="btn-submit" id="btn-add-friend" style="padding:6px 12px; font-size:12px;">+ Add</button>
+        </div>
+      </div>
+
+      <!-- Friends List View -->
+      <div class="friends-list" id="friends-list-container">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- 1-on-1 Direct Chat View (inside drawer when friend clicked) -->
+      <div class="direct-chat-view" id="direct-chat-container" style="display: none;">
+        <div class="direct-chat-header">
+          <button class="btn-back-friends" id="btn-back-to-friends-list">←</button>
+          <img src="" id="dm-friend-avatar" style="width:28px; height:28px; border-radius:50%; object-fit:cover;" />
+          <div style="display:flex; flex-direction:column;">
+            <span id="dm-friend-name" style="font-size:13px; font-weight:700;">Friend Name</span>
+            <span id="dm-friend-status" style="font-size:11px; color:#2ecc71;">Online</span>
+          </div>
+          <button class="btn-submit" id="btn-invite-friend-room" style="margin-left:auto; padding:4px 8px; font-size:11px;" title="Invite friend to your current room">Invite to Room</button>
+        </div>
+
+        <div class="direct-messages-box" id="direct-messages-box">
+          <!-- DMs rendered here -->
+        </div>
+
+        <div class="chat-input-area" style="background:#ffffff; border-top:1px solid #cfd8dc;">
+          <label class="btn-chat-attach" title="Send Image" for="dm-image-input" style="cursor:pointer; color:#78909c;">📎</label>
+          <input type="file" id="dm-image-input" accept="image/*" style="display:none;" />
+          <input type="text" class="chat-input" id="dm-chat-input" placeholder="Type a message..." style="background:#f1f5f9; color:#263238; border-color:#cfd8dc;" />
+          <button class="btn-chat-send" id="btn-send-dm" style="background:var(--brand-green);">➤</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Image Zoom Overlay -->
+  <div class="image-zoom-overlay" id="modal-image-zoom" style="display: none;">
+    <img src="" class="image-zoom-img" id="zoomed-image" />
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Socket.IO Client Library -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <!-- App JavaScript Modules -->
+  <script src="js/free4talk-api.js"></script>
+  <script src="js/webrtc-manager.js"></script>
+  <script src="js/lingauro-games.js"></script>
+  <script src="js/lingauro-dock.js"></script>
+  <script src="js/friends.js"></script>
+  <script src="js/tokens-vip.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

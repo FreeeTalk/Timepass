@@ -1,0 +1,762 @@
+/* ==========================================================================
+   Timepass Talk - Exact Free4Talk Style Design System
+   Clean, Professional, Slate/Navy Header, Light Card Surfaces, Exact Free4talk Palette
+   ========================================================================== */
+
+:root {
+  /* Free4Talk Signature Color Palette */
+  --header-bg: #263238;
+  --header-dark: #1e272c;
+  --header-text: #ffffff;
+  --header-text-muted: #b0bec5;
+
+  --page-bg: #eceff1;
+  --card-bg: #ffffff;
+  --card-border: #cfd8dc;
+  --card-hover-border: #90a4ae;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.12);
+
+  /* Free4Talk Brand Green */
+  --brand-green: #27ae60;
+  --brand-green-hover: #219653;
+  --brand-green-light: #e8f8f0;
+  --brand-green-border: #a3e4d7;
+
+  /* Level Badges (Free4talk standards) */
+  --level-any-bg: #e8f8f0;
+  --level-any-text: #1e824c;
+  --level-any-border: #a3e4d7;
+
+  --level-beg-bg: #e0f2f1;
+  --level-beg-text: #00695c;
+  --level-beg-border: #80cbc4;
+
+  --level-int-bg: #fef9e7;
+  --level-int-text: #b7791f;
+  --level-int-border: #f9e79f;
+
+  --level-adv-bg: #f3e5f5;
+  --level-adv-text: #6b21a8;
+  --level-adv-border: #d7bde2;
+
+  /* Accent Colors */
+  --accent-blue: #2980b9;
+  --accent-blue-hover: #1f618d;
+  --accent-gold: #f39c12;
+  --accent-red: #e74c3c;
+  --accent-gray: #78909c;
+
+  /* Text Colors */
+  --text-primary: #263238;
+  --text-secondary: #546e7a;
+  --text-muted: #90a4ae;
+  --text-light: #ffffff;
+
+  /* Fonts */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 9999px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--page-bg);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.15s ease-in-out;
+}
+
+/* ==========================================================================
+   1. TOP NAVIGATION BAR (Exact Free4Talk Header)
+   ========================================================================== */
+.f4t-header {
+  background-color: var(--header-bg);
+  color: var(--header-text);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.f4t-header-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 16px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Free4talk Brand Logo */
+.f4t-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  user-select: none;
+}
+
+.f4t-logo-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.f4t-logo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.f4t-dot-1 { background-color: #2ecc71; }
+.f4t-dot-2 { background-color: #3498db; }
+.f4t-dot-3 { background-color: #f39c12; }
+.f4t-dot-4 { background-color: #e74c3c; }
+
+.f4t-brand-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.f4t-brand-sub {
+  font-size: 11px;
+  font-weight: 500;
+  color: #80cbc4;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Center Search / Stats Pill */
+.f4t-header-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--header-text-muted);
+}
+
+.f4t-pulse-live {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #2ecc71;
+  box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+  animation: f4t-pulse 2s infinite;
+}
+
+@keyframes f4t-pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(46, 204, 113, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+}
+
+/* Right Navigation Actions */
+.f4t-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Free4talk Iconic Green Button: "+ Create a new group" */
+.btn-create-group {
+  background-color: var(--brand-green);
+  color: #ffffff;
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  font-size: 13.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.btn-create-group:hover {
+  background-color: var(--brand-green-hover);
+  transform: translateY(-1px);
+}
+
+/* Token Economy Balance Pill (Lingauro feature) */
+.f4t-token-pill {
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffd54f;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.f4t-token-pill:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.f4t-claim-btn {
+  background-color: #f39c12;
+  color: #fff;
+  border-radius: 10px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+/* Friends Drawer Button */
+.f4t-friends-btn {
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.f4t-friends-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* User Profile Badge */
+.f4t-user-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+  color: #ffffff;
+}
+
+.f4t-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2ecc71;
+}
+
+.f4t-user-avatar.vip {
+  border-color: #ffd700;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+}
+
+.f4t-user-name {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.f4t-btn-signin {
+  background-color: #34495e;
+  border: 1px solid #4a627a;
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.f4t-btn-signin:hover {
+  background-color: #2c3e50;
+  border-color: #5c7b99;
+}
+
+/* ==========================================================================
+   2. FREE4TALK ANNOUNCEMENT & FILTER CONTROLS BAR
+   ========================================================================== */
+.f4t-banner {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--card-border);
+  padding: 10px 16px;
+}
+
+.f4t-banner-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+.f4t-banner-text strong {
+  color: var(--text-primary);
+}
+
+.f4t-banner-lang-quick {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.f4t-lang-tag {
+  background-color: #eceff1;
+  color: #37474f;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.f4t-lang-tag:hover {
+  background-color: #cfd8dc;
+}
+
+.f4t-lang-tag.active {
+  background-color: var(--brand-green);
+  color: #ffffff;
+}
+
+/* Secondary Filter Bar (Group Size & Level) */
+.f4t-filters-bar {
+  max-width: 1240px;
+  margin: 16px auto 8px auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.f4t-filter-group-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.f4t-filter-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.f4t-size-btn {
+  background-color: #ffffff;
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.f4t-size-btn:hover {
+  border-color: var(--card-hover-border);
+  color: var(--text-primary);
+}
+
+.f4t-size-btn.active {
+  background-color: var(--brand-green);
+  border-color: var(--brand-green);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.f4t-filter-group-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.f4t-select {
+  background-color: #ffffff;
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  outline: none;
+}
+
+.f4t-search-input {
+  background-color: #ffffff;
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+  padding: 6px 12px 6px 32px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  width: 220px;
+  outline: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2378909c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+
+.f4t-search-input:focus {
+  border-color: var(--brand-green);
+}
+
+/* ==========================================================================
+   3. FREE4TALK ROOM CARDS GRID (Signature UI)
+   ========================================================================== */
+.f4t-grid-container {
+  max-width: 1240px;
+  margin: 12px auto 40px auto;
+  padding: 0 16px;
+  width: 100%;
+}
+
+.f4t-rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 18px;
+}
+
+/* Exact Free4talk Room Card */
+.f4t-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.f4t-card:hover {
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--card-hover-border);
+  transform: translateY(-2px);
+}
+
+.f4t-card.vip-card {
+  border: 1.5px solid #f39c12;
+  box-shadow: 0 2px 8px rgba(243, 156, 18, 0.15);
+}
+
+.f4t-card-header {
+  padding: 12px 14px 8px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.f4t-card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.f4t-card-flag {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.f4t-card-lang {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Free4talk Level Badge */
+.f4t-level-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: capitalize;
+  border: 1px solid transparent;
+}
+
+.f4t-level-badge.any {
+  background-color: var(--level-any-bg);
+  color: var(--level-any-text);
+  border-color: var(--level-any-border);
+}
+
+.f4t-level-badge.beginner {
+  background-color: var(--level-beg-bg);
+  color: var(--level-beg-text);
+  border-color: var(--level-beg-border);
+}
+
+.f4t-level-badge.intermediate {
+  background-color: var(--level-int-bg);
+  color: var(--level-int-text);
+  border-color: var(--level-int-border);
+}
+
+.f4t-level-badge.advanced {
+  background-color: var(--level-adv-bg);
+  color: var(--level-adv-text);
+  border-color: var(--level-adv-border);
+}
+
+.f4t-vip-pill {
+  background-color: #fff8e1;
+  color: #b78103;
+  border: 1px solid #ffe082;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Card Topic Title */
+.f4t-card-title {
+  padding: 8px 14px 4px 14px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.4;
+  min-height: 42px;
+}
+
+/* ==========================================================================
+   4. MEMBER SLOTS GRID (Free4Talk's Signature Element!)
+   ========================================================================== */
+.f4t-card-slots {
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+/* Occupied Slot */
+.f4t-slot-occupied {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.f4t-avatar-wrapper {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 4px;
+}
+
+.f4t-slot-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #b0bec5;
+  background-color: #cfd8dc;
+}
+
+/* Green Pulsing Halo when user is talking (Exact Free4Talk Animation) */
+.f4t-avatar-wrapper.speaking .f4t-slot-avatar {
+  border-color: #2ecc71;
+  box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+  animation: f4t-speaking-pulse 1.4s infinite;
+}
+
+@keyframes f4t-speaking-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.8); }
+  70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+}
+
+.f4t-mic-indicator {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.f4t-mic-indicator.muted {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.f4t-mic-indicator.live {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+.f4t-slot-name {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-primary);
+  max-width: 68px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.f4t-slot-flag {
+  font-size: 11px;
+}
+
+/* Empty Open Slot */
+.f4t-slot-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.f4t-slot-empty-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px dashed #b0bec5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #90a4ae;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.f4t-slot-empty-text {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Card Bottom Footer */
+.f4t-card-footer {
+  margin-top: auto;
+  padding: 10px 14px 12px 14px;
+  background-color: #fafbfc;
+  border-top: 1px solid #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.f4t-capacity-badge {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.f4t-btn-join {
+  background-color: var(--brand-green);
+  color: #ffffff;
+  padding: 6px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.f4t-btn-join:hover {
+  background-color: var(--brand-green-hover);
+}
+
+.f4t-btn-join.full {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+}
+
+/* Empty State */
+.f4t-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #ffffff;
+  border: 1px dashed var(--card-border);
+  border-radius: var(--radius-md);
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+.f4t-empty-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.f4t-empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.f4t-empty-desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .f4t-header-stats {
+    display: none;
+  }
+  .f4t-rooms-grid {
+    grid-template-columns: 1fr;
+  }
+  .f4t-filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .f4t-filter-group-right {
+    justify-content: space-between;
+  }
+  .f4t-search-input {
+    width: 100%;
+  }
+}
